@@ -13,7 +13,9 @@
                 if($password == $data['password']){
                     session_start();
                     $_SESSION['email'] = $email;
-                    header("Location: ../index.php?login=true");
+                    $_SESSION['f_id'] = $data['id'];
+                    $_SESSION['loggedin'] = "true";
+                    header("Location: ../dashboard.php?login=true");
                 }else{
                     header("Location: ../index.php?pass=false");
                 }

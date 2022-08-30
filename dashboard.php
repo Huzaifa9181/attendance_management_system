@@ -62,7 +62,7 @@
     </div>
 
     <div class="container mb-5">
-        <form action="partials/handle_signup.php" method="post">
+        <form action="partials/handle_dashboard.php" method="post">
             <div class="mb-3">
                 <input type="text" class="form-control" required name="name" placeholder="Student Name">
             </div>
@@ -70,22 +70,36 @@
                 <input type="text" class="form-control" required name="roll_no" placeholder="Roll No">
             </div>
             <div class="mb-3">
-                <input type="text" class="form-control" required name="course" placeholder="Course">
+                <select class="form-select" name="course" aria-label="Default select example">
+                    <option selected>Course</option>
+                    <option value="BS (Computer Sciences)">BS (Computer Sciences)</option>
+                    <option value="BE Electrical">BE Electrical</option>
+                    <option value="BE Electronics">BE Electronics</option>
+                    <option value="BE Software Engineering.">BE Software Engineering.</option>
+                </select>
             </div>
             <div class="mb-3">
                 <select class="form-select" name="semester" aria-label="Default select example">
                     <option selected>Semester</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="1st Semester">1st Semester</option>
+                    <option value="2nd Semester">2nd Semester</option>
+                    <option value="3rd Semester">3rd Semester</option>
+                    <option value="4th Semester">4th Semester</option>
+                    <option value="5th Semester">5th Semester</option>
+                    <option value="6th Semester">6th Semester</option>
+                    <option value="7th Semester">7th Semester</option>
+                    <option value="8th Semester">8th Semester</option>
                 </select>
             </div>
             <div class="mb-3">
                 <select class="form-select" name="branch" aria-label="Default select example">
                     <option selected>Branch</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="Main Campus - Defence view, Shaheed-e-Millat Road.">Main Campus - Defence view, Shaheed-e-Millat Road.</option>
+                    <option value="Gulshan Campus - Abid Town, Block-2, Gulshan-e-Iqbal.">Gulshan Campus - Abid Town, Block-2, Gulshan-e-Iqbal.</option>
+                    <option value="Gulshan Campus 2 - block 7.">Gulshan Campus 2 - block 7.</option>
+                    <option value="Bahria Town Campus - Bahria town.">Bahria Town Campus - Bahria town.</option>
+                    <option value="North Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.">North Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.</option>
+                    <option value="Malir Campus - Malir Halt, Airport road.">Malir Campus - Malir Halt, Airport road.</option>    
                 </select>
             </div>
             <input type="submit" value="Add Student" class="btn btn-primary form-control">

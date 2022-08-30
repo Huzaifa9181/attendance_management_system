@@ -42,13 +42,7 @@
 
     <?php
         session_start();
-        if(isset($_GET['login']) && $_GET['login'] == "true"){
-            $email = $_SESSION['email'];
-            echo '<div style="margin-top: -8px;" class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Successfully!</strong> You are logged in '.$email.'
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                 </div>';
-        }
+        
         if(isset($_GET['pass']) && $_GET['pass'] == "false"){
             $email = $_SESSION['email'];
             echo '<div style="margin-top: -8px;" class="alert alert-danger alert-dismissible fade show" role="alert">

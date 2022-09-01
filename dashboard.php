@@ -147,6 +147,7 @@
 
                 <?php
 
+            // fetch all data 
         $f_id = $_SESSION['f_id'];
         $sql = "SELECT * FROM `student` WHERE f_id = '$f_id';";
         $result = mysqli_query($conn,$sql);

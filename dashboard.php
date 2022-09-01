@@ -14,6 +14,25 @@
     <!-- jquey cdn -->
     <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
+<style>
+    p#pres {
+    background-color: #198754;
+    border-radius: 28px;
+    width: 69px;
+    padding: 7px;
+    color: white;
+    }
+    #abs {
+    background-color: #dc3545;
+    border-radius: 28px;
+    width: 69px;
+    padding: 7px;
+    color: white;
+}
+
+
+</style>
+
 </head>
 
 <body>
@@ -94,17 +113,107 @@
             <div class="mb-3">
                 <select class="form-select" name="branch" aria-label="Default select example">
                     <option selected>Branch</option>
-                    <option value="Main Campus - Defence view, Shaheed-e-Millat Road.">Main Campus - Defence view, Shaheed-e-Millat Road.</option>
-                    <option value="Gulshan Campus - Abid Town, Block-2, Gulshan-e-Iqbal.">Gulshan Campus - Abid Town, Block-2, Gulshan-e-Iqbal.</option>
+                    <option value="Main Campus - Defence view, Shaheed-e-Millat Road.">Main Campus - Defence view,
+                        Shaheed-e-Millat Road.</option>
+                    <option value="Gulshan Campus - Abid Town, Block-2, Gulshan-e-Iqbal.">Gulshan Campus - Abid Town,
+                        Block-2, Gulshan-e-Iqbal.</option>
                     <option value="Gulshan Campus 2 - block 7.">Gulshan Campus 2 - block 7.</option>
                     <option value="Bahria Town Campus - Bahria town.">Bahria Town Campus - Bahria town.</option>
-                    <option value="North Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.">North Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.</option>
-                    <option value="Malir Campus - Malir Halt, Airport road.">Malir Campus - Malir Halt, Airport road.</option>    
+                    <option value="North Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.">North
+                        Campus - Sector 7-B/1, North Karachi, opposite Muhammad Shah Graveyard.</option>
+                    <option value="Malir Campus - Malir Halt, Airport road.">Malir Campus - Malir Halt, Airport road.
+                    </option>
                 </select>
             </div>
             <input type="submit" value="Add Student" class="btn btn-primary form-control">
         </form>
     </div>
+
+    <div class="container mb-5">
+        
+        <h2 class="text-center mb-5">Mark Attendance <?php echo date("Y-m-d");?></h2>
+
+        <table class="table mb-5">
+            <thead class="table-primary">
+                <th>S.no</th>
+                <th>Student Name</th>
+                <th>Roll No</th>
+                <th>Course</th>
+                <th>Semester</th>
+                <th>Branch</th>
+                <th>Attendance</th>
+            </thead>
+            <tbody>
+
+                <?php
+
+        $f_id = $_SESSION['f_id'];
+        $sql = "SELECT * FROM `student` WHERE f_id = '$f_id';";
+        $result = mysqli_query($conn,$sql);
+        $count = 1;
+        if(mysqli_num_rows($result) > 0){
+            while($data = mysqli_fetch_assoc($result)){
+                if($data['time'] ==  date("Y-m-d")){
+                    if($data["attendance"] == "present"){
+                        echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="pres">Present</p></td></tr>';
+                        $count = $count +1;
+                    }
+                    elseif($data["attendance"] == "absent"){
+                        echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="abs">Absent</p></td></tr>';
+                        $count = $count +1;
+
+                    }else{
+                    echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><button data-id="'.$data['id'].'" class="btn btn-success present" >P</button><button data-id="'.$data['id'].'" class="btn btn-danger mx-2 absent">A</button></td></tr>';
+                    $count = $count +1;
+                    }
+                }
+            }
+        }
+
+    ?>
+            </tbody>
+        </table>
+    </div>
+    <script>
+    $(document).ready(function() {
+        $(".present").on("click", function(e) {
+            
+            var Id = $(this).data("id");
+            e.preventDefault();
+            $(this).siblings().hide();
+            $(this).html("Present");
+
+            $.ajax({
+                url : "attendance_ajax.php",
+                type : "POST",
+                data : {p_id : Id},
+                success : function(data){
+                    
+                }
+
+            })
+            
+        });
+
+        $(".absent").on("click", function(e) {
+            var a_Id = $(this).data("id");
+            e.preventDefault();
+            $(this).siblings().hide();
+            $(this).html("Absent");
+
+            $.ajax({
+                url : "attendance_ajax.php",
+                type : "POST",
+                data : {a_id : a_Id},
+                success : function(data){
+                    
+                }
+
+            })
+        })
+    })
+    </script>
+    
 
     <?php
         include "partials/footer.php";

@@ -7,9 +7,9 @@
             $course = $_POST['course'];
             $semester = $_POST['semester'];
             $branch = $_POST['branch'];
-            $f_id = $_SESSION['f_id'];;
-            $sql = "INSERT INTO `student` (`name`, `roll_no`, `course`, `semester`, `branch`, `f_id`) VALUES ('$name', '$roll_no', '$course', '$semester', '$branch', '$f_id');
-            ";
+            $f_id = $_SESSION['f_id'];
+            $date = date("Y-m-d");
+            $sql = "INSERT INTO `student` (`name`, `roll_no`, `course`, `semester`, `branch`, `f_id`,`time`) VALUES ('$name', '$roll_no', '$course', '$semester', '$branch', '$f_id', '$date');";
             
             if($result = mysqli_query($conn,$sql)){
                 header("Location: ../dashboard.php");

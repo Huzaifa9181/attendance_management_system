@@ -1,6 +1,9 @@
 <?php
         include_once("database.php");
         session_start();
+
+        // insert student data for database 
+        
         if($_SERVER["REQUEST_METHOD"] == "POST"){
             $name = $_POST['name'];
             $roll_no = $_POST['roll_no'];

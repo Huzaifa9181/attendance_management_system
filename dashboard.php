@@ -28,8 +28,7 @@
     width: 69px;
     padding: 7px;
     color: white;
-}
-
+    }
 
 </style>
 
@@ -39,6 +38,7 @@
     <?php
         include_once("partials/database.php");
         session_start();
+        include_once("partials/modal.php");
 
         if(isset($_SESSION['loggedin']) && !empty($_SESSION['loggedin'])){
             $email = $_SESSION['email'];
@@ -59,6 +59,21 @@
         </div>
     </div>
 
+    <?php
+        if(isset($_GET['not_equal']) && $_GET['not_equal'] == "false"){
+        echo '<div class="alert alert-danger alert-dismissible fade show" style="margin-top: -8px;" role="alert">
+            <strong>Error!</strong> You write wrong details of student please check properly.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+        if(isset($_GET['value']) && $_GET['value'] == "false"){
+            echo '<div class="alert alert-danger alert-dismissible fade show" style="margin-top: -8px;" role="alert">
+                <strong>Error!</strong> Write a proper value of <b> Student Name </b> and his <b>Roll No</b>.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>';
+            }
+    ?>
+
     <div class="container p-4">
         <div class="row">
             <div class="col-md-10">
@@ -75,7 +90,7 @@
                 <h1 class="text-center">Add New Student</h1>
             </div>
             <div class="col-md-2">
-                <button class="btn btn-success mt-2">Check Records</button>
+                <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success mt-2">Check Records</button>
             </div>
         </div>
     </div>

@@ -175,7 +175,7 @@
 ?>
     
 
-    <div class="container mb-5">
+    <div class="container mb-5" style="margin-bottom: 120px !important;">
 
         <h2 class="text-center mb-5">Mark Attendance <?php echo date("Y-m-d");?></h2>
 

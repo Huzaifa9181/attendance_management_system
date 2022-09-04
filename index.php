@@ -75,7 +75,7 @@
                             <input type="email" name="email" id="email"><br><br>
                             <input type="password" name="password" id="password"><br><br>
                             <input type="submit" class="btn btn-primary sub-btn"><br><br>
-                            <span style="display: flex;" class="mx-5"><p class="para">Not registered?</p><a class="text-decoration-none" href="signup.php">Create an account</a></span>
+                            <span style="display: flex; padding-left: 109px !important;" class="mx-5"><p class="para">Not registered?</p><a class="text-decoration-none" href="signup.php">Create an account</a></span>
 
                         </form>
                     </div>

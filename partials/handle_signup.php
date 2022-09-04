@@ -7,19 +7,17 @@
             $username = $_POST['username'];
             $userid = $_POST['userid'];
             $password = $_POST['password'];
+            $role = $_POST['role'];
 
-            $sql = "SELECT * FROM `faculty` WHERE email = '$email';";
+            $sql = "SELECT * FROM `users` WHERE email = '$email';";
             $result = mysqli_query($conn,$sql);
             $row = mysqli_num_rows($result);
             if($row == 0){
-                $sql = "INSERT INTO `faculty` (`name`, `email`, `qualification`, `Username`, `user_id`, `password`) VALUES ('$name', '$email', '$qualification', '$username', '$userid', '$password');";
+                $sql = "INSERT INTO `users` (`name`, `email`, `qualification`, `Username`, `password`,`role`) VALUES ('$name', '$email', '$qualification', '$username', '$password' , '$role');";
                 $result = mysqli_query($conn,$sql);
-                echo "You data insert";
                 header("Location: ../index.php?signup=true");
             }else{
-                
                 header("Location: ../signup.php?signup=false");
-
             }
 
         }else{

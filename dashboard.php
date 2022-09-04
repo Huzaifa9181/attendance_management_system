@@ -14,23 +14,23 @@
     <!-- jquey cdn -->
     <script src="https://code.jquery.com/jquery-3.6.1.js"></script>
 
-<style>
+    <style>
     p#pres {
-    background-color: #198754;
-    border-radius: 28px;
-    width: 69px;
-    padding: 7px;
-    color: white;
-    }
-    #abs {
-    background-color: #dc3545;
-    border-radius: 28px;
-    width: 69px;
-    padding: 7px;
-    color: white;
+        background-color: #198754;
+        border-radius: 28px;
+        width: 69px;
+        padding: 7px;
+        color: white;
     }
 
-</style>
+    #abs {
+        background-color: #dc3545;
+        border-radius: 28px;
+        width: 69px;
+        padding: 7px;
+        color: white;
+    }
+    </style>
 
 </head>
 
@@ -39,10 +39,18 @@
         include_once("partials/database.php");
         session_start();
         include_once("partials/modal.php");
+        include_once("partials/homework_modal.php");
+        include_once("partials/navbar.php");
+
+        $role = $_SESSION['role'];
+
+        $sql = "SELECT * FROM `role` WHERE id='$role';";
+        $result = mysqli_query($conn,$sql);
+        $da = mysqli_fetch_assoc($result);
 
         if(isset($_SESSION['loggedin']) && !empty($_SESSION['loggedin'])){
             $email = $_SESSION['email'];
-            $sql = "SELECT * FROM `faculty` WHERE email = '$email';";
+            $sql = "SELECT * FROM `users` WHERE email = '$email';";
     
             $result = mysqli_query($conn,$sql);
             $row = mysqli_num_rows($result);
@@ -87,15 +95,35 @@
 
         <div class="row">
             <div class="col-md-10">
-                <h1 class="text-center">Add New Student</h1>
+                <?php
+                    if($da['role'] == "admin" || $da['role'] == "teacher"){
+                        echo'<h1 class="text-center">Add Student for Mark Attendance</h1>';
+                    }
+                    
+                ?>
             </div>
+
             <div class="col-md-2">
-                <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success mt-2">Check Records</button>
+                <?php
+                    if($da['role'] == "admin" || $da['role'] == "teacher"){
+                        echo '<button data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success mt-2">Check
+                        Records</button>
+                        <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#homeModal">Home Work</button> ';
+                    }else{
+                        echo '<a href="records.php" class="btn btn-success mt-2">Check
+                        Records</a>';
+                    }
+                ?>
+                                
             </div>
+
         </div>
     </div>
 
-    <div class="container mb-5">
+<?php
+
+    if($da['role'] == "admin" || $da['role'] == "teacher"){
+        echo'<div class="container mb-5">
         <form action="partials/handle_dashboard.php" method="post">
             <div class="mb-3">
                 <input type="text" class="form-control" required name="name" placeholder="Student Name">
@@ -142,10 +170,13 @@
             </div>
             <input type="submit" value="Add Student" class="btn btn-primary form-control">
         </form>
-    </div>
+    </div>';
+    }
+?>
+    
 
     <div class="container mb-5">
-        
+
         <h2 class="text-center mb-5">Mark Attendance <?php echo date("Y-m-d");?></h2>
 
         <table class="table mb-5">
@@ -186,6 +217,33 @@
             }
         }
 
+        $sql = "SELECT * FROM `users` WHERE email = '$email';";
+        $result = mysqli_query($conn,$sql);
+        $data = mysqli_fetch_assoc($result);
+        if($data['role'] == 3){
+            $name = $data['name'];
+            $sql="SELECT * FROM `student` WHERE name='$name';";
+            $s_result = mysqli_query($conn,$sql);
+            // $row = mysqli_fetch_assoc($s_result);
+            if(mysqli_num_rows($s_result) > 0){
+                while($data = mysqli_fetch_assoc($s_result)){
+                    if($data['time'] == date("Y-m-d")){  
+                        if($data["attendance"] == "present"){
+                            echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="pres">Present</p></td></tr>';
+                            $count = $count +1;
+                        }elseif($data["attendance"] == "absent"){
+                            echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="abs">Absent</p></td></tr>';
+                            $count = $count +1;
+    
+                        }else{
+                            echo "<tr><td>teacher not marks your attendance</td></tr>";
+                        }
+                    }
+                }
+            }
+        }
+        
+
     ?>
             </tbody>
         </table>
@@ -193,22 +251,25 @@
     <script>
     $(document).ready(function() {
         $(".present").on("click", function(e) {
-            
+
             var Id = $(this).data("id");
+            console.log(Id);
             e.preventDefault();
             $(this).siblings().hide();
             $(this).html("Present");
 
             $.ajax({
-                url : "attendance_ajax.php",
-                type : "POST",
-                data : {p_id : Id},
-                success : function(data){
-                    
+                url: "attendance_ajax.php",
+                type: "POST",
+                data: {
+                    p_id: Id
+                },
+                success: function(data) {
+                    console.log(data);
                 }
 
             })
-            
+
         });
 
         $(".absent").on("click", function(e) {
@@ -218,18 +279,20 @@
             $(this).html("Absent");
 
             $.ajax({
-                url : "attendance_ajax.php",
-                type : "POST",
-                data : {a_id : a_Id},
-                success : function(data){
-                    
+                url: "attendance_ajax.php",
+                type: "POST",
+                data: {
+                    a_id: a_Id
+                },
+                success: function(data) {
+
                 }
 
             })
         })
     })
     </script>
-    
+
 
     <?php
         include "partials/footer.php";

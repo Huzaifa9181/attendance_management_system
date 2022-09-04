@@ -45,48 +45,104 @@
             <tbody>
 
                 <?php
+        session_start();
+        
+        include "partials/database.php";
+        $role = $_SESSION['role'];
+        $r_sql = "SELECT * FROM `role` WHERE id='$role';";
+        $r_result = mysqli_query($conn,$r_sql);
+        $role_fet = mysqli_fetch_assoc($r_result);
+         $role_fet['role'];
+        if($role_fet['role'] == "admin" || $role_fet['role'] == "teacher"){
+            if(isset($_POST['s_name']) && !empty($_POST['roll_no'])){
+                if($_SERVER['REQUEST_METHOD'] == "POST"){
+                    $name = $_POST['s_name'];
+                    $roll_no = $_POST['roll_no'];
+                    $f_id = $_SESSION['f_id'];
+            
+                    $sql = "SELECT * FROM `student` WHERE name='$name' AND roll_no='$roll_no' AND f_id='$f_id';";
+                    $result = mysqli_query($conn,$sql);
+                    $row = mysqli_fetch_assoc($result);
+    
+                    if($name == $row['name'] && $roll_no == $row['roll_no']){
+                    
+                        $sql = "SELECT * FROM `student` WHERE name='$name' AND roll_no='$roll_no' AND f_id='$f_id';";
+                        $result = mysqli_query($conn,$sql);
+                        $count = 1;
+                        if(mysqli_num_rows($result) > 0 ){
+                            while($data = mysqli_fetch_assoc($result)){
+                            echo'
+                            <tr>
+                            <td>'.$count.'</td>
+                            <td>'.$data['name'].'</td>
+                            <td>'.$data['roll_no'].'</td>
+                            <td>'.$data['course'].'</td>
+                            <td>'.$data['time'].'</td>';
+                            if($data['attendance'] == "present"){
+                                echo '<td class="text-primary text-capitalize"><b>'.$data['attendance'].'</b></td>';
+                                
+                            }else{
+                                echo '<td class="text-danger text-capitalize" ><b>'.$data['attendance'].'</b></td>';                                
+                            }
+                            echo' </tr>';
+                            
+                            $count = $count +1;
+                            }
+                        }else{
+                            echo "no records";
+                        }
+                    }else{
 
-include "partials/database.php";
-    if(isset($_POST['s_name']) && !empty($_POST['roll_no'])){
-        if($_SERVER['REQUEST_METHOD'] == "POST"){
-            $name = $_POST['s_name'];
-            $roll_no = $_POST['roll_no'];
+                        header("Location: dashboard.php?not_equal=false");
+                    }
+                }else{
+                    echo "program issue";
+                }
+            }else{
+                header("Location: dashboard.php?value=false");
+            };
 
-            $sql = "SELECT * FROM `student` WHERE name='$name' AND roll_no='$roll_no';";
+        }else if($role_fet['role'] == "student"){
+            $name = $_SESSION['name'];
+            $sql = "SELECT * FROM `student` WHERE name='$name';";    
             $result = mysqli_query($conn,$sql);
-            $row = mysqli_fetch_assoc($result);
-
-            if($name == $row['name'] && $roll_no == $row['roll_no']){
-                $sql = "SELECT * FROM `student` WHERE name='$name' AND roll_no='$roll_no';";
-                $result = mysqli_query($conn,$sql);
+            $data = mysqli_fetch_assoc($result);
+            if($data['name'] == $_SESSION['name']){
                 $count = 1;
+                $n = $data['name'];
+                $sql = "SELECT * FROM `student` WHERE name='$n';";    
+                $result = mysqli_query($conn,$sql);
+                
                 if(mysqli_num_rows($result) > 0 ){
-                    while($data = mysqli_fetch_assoc($result)){
+                    while($row = mysqli_fetch_assoc($result)){
                     echo'
                     <tr>
                     <td>'.$count.'</td>
-                    <td>'.$data['name'].'</td>
-                    <td>'.$data['roll_no'].'</td>
-                    <td>'.$data['course'].'</td>
-                    <td>'.$data['time'].'</td>';
-                    if($data['attendance'] == "present"){
-                        echo '<td class="text-primary text-capitalize"><b>'.$data['attendance'].'</b></td>';
+                    <td>'.$row['name'].'</td>
+                    <td>'.$row['roll_no'].'</td>
+                    <td>'.$row['course'].'</td>
+                    <td>'.$row['time'].'</td>';
+                    if($row['attendance'] == "present"){
+                        echo '<td class="text-primary text-capitalize"><b>'.$row['attendance'].'</b></td>';
                     }else{
-                        echo '<td class="text-danger text-capitalize" ><b>'.$data['attendance'].'</b></td>';
+                        echo '<td class="text-danger text-capitalize" ><b>'.$row['attendance'].'</b></td>';
                     }
                     echo' </tr>';
                     
                     $count = $count +1;
                     }
+                }else{
+                    header("Location: dashboard.php?exsist=false");
                 }
             }else{
-                header("Location: dashboard.php?not_equal=false");
+                // user name == for student name
+                header("Location: dashboard.php?new_student=true");
             }
-            
+        
+            }
+        else{
+            echo"<script>alert('issue')</script>";
         }
-    }else{
-        header("Location: dashboard.php?value=false");
-    }
 ?>
             </tbody>
         </table>

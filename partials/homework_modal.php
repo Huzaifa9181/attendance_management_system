@@ -18,13 +18,13 @@
                     <div class="modal-body">
                         <form action="partials/handle_homework.php" method="POST">
                             <div class="mb-3">
-                                <label for="title" class="form-label">home work title</label>
-                                <input type="text" class="form-control" name="title" id="title">
+                                <label for="title" class="form-label">Homework Title</label>
+                                <input type="text" class="form-control" maxlength="80" name="title" id="title">
                                 
                             </div>
                             <div class="mb-3">
-                                <label for="desc" class="form-label">home work description</label>
-                                <input type="textarea" class="form-control" name="desc" id="desc">
+                                <label for="floatingTextarea" class="mb-2">Homework Description</label>
+                                <textarea class="form-control" id="floatingTextarea"></textarea>
                             </div>
                             
                             <button type="submit" class="btn btn-primary">Submit</button>

@@ -41,7 +41,7 @@
                 if(mysqli_num_rows($result) > 0){
                     while($data = mysqli_fetch_assoc($result)){
                         echo'
-                              <h5>'.$data['time'].'</h5>
+                              <h5> <b>Prof. '. $data['faculty'].'</b> Time '.$data['time'].'</h5>
                             <div class="mt-4 p-5 mb-5 bg-primary text-white rounded">
                                 <h2 class="">'.$data['title'].'</h2> 
                                 <p>'.$data['description'].'</p> 

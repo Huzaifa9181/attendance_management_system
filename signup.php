@@ -29,7 +29,7 @@
     <?php
         if(isset($_GET['signup']) && $_GET['signup'] == "false"){
             echo '<div style="margin-top: -8px;" class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong> Email is already exsist please write your correct email.
+                <strong>Error!</strong> User is already exsist.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                  </div>';
         }
@@ -37,7 +37,7 @@
 
 
     <div class="container mb-5">
-        <h1 class="text-center p-3">Faculty Registration</h1>
+        <h1 class="text-center p-3">Registration Form</h1>
         <form action="partials/handle_signup.php" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">Full Name</label>
@@ -56,13 +56,14 @@
                 <input type="text" class="form-control" required name="username" placeholder="Username">
             </div>
             <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">User id</label>
-                <input type="text"  class="form-control" required name="userid" placeholder="User id">
-            </div>
-            <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Password</label>
                 <input type="password" class="form-control" required name="password">
             </div>
+            <select class="form-select mb-3" name="role"  aria-label="Default select example">
+            <option selected>Role</option>
+                <option value="2">Teacher</option>
+                <option value="3">Student</option>
+            </select>
             <input type="submit" class="btn btn-primary form-control">
         </form>
         <a href="index.php" class="btn btn-success mt-4">Back</a>

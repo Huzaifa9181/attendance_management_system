@@ -19,7 +19,10 @@
 
     <?php
         include_once("partials/navbar.php");
-        
+        session_start();
+        if(!isset($_SESSION['loggedin']) && empty($_SESSION['loggedin'])){
+            header("Location: index.php"); 
+        }
     ?>
 
 
@@ -29,6 +32,14 @@
         </div>
     </div>
 
+    <?php
+        if(isset($_GET['file']) && $_GET['file'] == "true"){
+            echo'<div class="alert alert-success alert-dismissible fade show" style="margin-top:-9px !important;" role="alert">
+            <strong>Successfully!</strong> Your homework is submitted. 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>';
+        }
+    ?>
 
     <h1 class="text-center mt-5 mb-5"> Homework</h1>
     <div class="container mt-3" style="margin-bottom: 200px !important;">
@@ -41,17 +52,26 @@
                 if(mysqli_num_rows($result) > 0){
                     while($data = mysqli_fetch_assoc($result)){
                         echo'
-                              <h5> <b>Prof. '. $data['faculty'].'</b> Time '.$data['time'].'</h5>
+                        <h5>Time '.$data['time'].'</h5>
                             <div class="mt-4 p-5 mb-5 bg-primary text-white rounded">
                                 <h2 class="">'.$data['title'].'</h2> 
                                 <p>'.$data['description'].'</p> 
                             </div>
+                            <h1 class="text-center mt-5 mb-5">Submit Your Homework</h1>
+                            <form action="partials/handle_submit_homework.php" method="POST" enctype="multipart/form-data">
+                                <div class="input-group mb-3">
+                                    <input type="file" name="file" class="form-control" id="inputGroupFile02">
+                                    <input type="hidden" name="hidden_id" class="form-control" value="'.$data['faculty'].'">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit Homework</button>
+                            </form>
                         ';
                     }
                 }else{
                     echo "No Homework Today";
                 }    
             ?>
+            
             
     </div>
 

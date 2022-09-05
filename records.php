@@ -23,6 +23,12 @@
 
 <body>
 
+<?php
+    session_start();
+    if(!isset($_SESSION['loggedin']) && empty($_SESSION['loggedin'])){
+        header("Location: index.php"); 
+    }
+?>
 
 
     <div class="container-fluid p-0 m-0">
@@ -45,7 +51,7 @@
             <tbody>
 
                 <?php
-        session_start();
+        
         
         include "partials/database.php";
         $role = $_SESSION['role'];

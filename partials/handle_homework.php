@@ -6,7 +6,7 @@
         $title = $_POST['title'];
         $desc = $_POST['desc'];
         $date = date("Y-m-d");
-        $faculty = $_SESSION['name'];
+        $faculty = $_SESSION['f_id']
         $sql = "INSERT INTO `homework` (`title`, `description`,`faculty`,`time`) VALUES ( '$title', '$desc','$faculty','$date');
         ";
         if($result = mysqli_query($conn,$sql)){

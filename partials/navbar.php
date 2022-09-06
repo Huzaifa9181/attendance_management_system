@@ -13,18 +13,17 @@
           <a class="nav-link active" aria-current="page" href="homework.php">Home Work</a>
         </li>
         <?php
-          // if($_SESSION['role'] == 1 || $_SESSION['role'] == 2){
-          //   echo '
-          //   <li class="nav-item">
-          //     <a class="nav-link active" aria-current="page" href="homework_check.php">Check Home Work</a>
-          //   </li>
-          // ';
-          // }
-        ?>
+        // session_start();
+            include_once("modal.php");
 
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="homework_check.php">Check Home Work</a>
-          </li>
+          if($_SESSION['role'] == 1 || $_SESSION['role'] == 2){
+            echo '
+            <li class="nav-item">
+              <a class="nav-link active" href="homework_check.php">Check Home Work</a>
+            </li>
+          ';
+          }
+        ?>
       </ul>
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">

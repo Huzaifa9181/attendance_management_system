@@ -1,7 +1,8 @@
 
 <?php
     include "database.php";
-    $role = $_SESSION['role'];
+    session_start();
+    $role = $_SESSION['role'];    
     $r_sql = "SELECT * FROM `role` WHERE id='$role';";
     $r_result = mysqli_query($conn,$r_sql);
     $role_fet = mysqli_fetch_assoc($r_result);

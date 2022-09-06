@@ -52,7 +52,6 @@
 
                 <?php
         
-        
         include "partials/database.php";
         $role = $_SESSION['role'];
         $r_sql = "SELECT * FROM `role` WHERE id='$role';";

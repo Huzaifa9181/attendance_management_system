@@ -20,7 +20,7 @@
     <?php
         include_once("partials/database.php");
         include_once("partials/navbar.php");
-        session_start();
+        
         if(!isset($_SESSION['loggedin']) && empty($_SESSION['loggedin'])){
             header("Location: index.php"); 
         }
@@ -34,7 +34,7 @@
     </div>
 
     
-    <h1 class="text-center mt-5 mb-5">Submit Homework</h1>
+    <h1 class="text-center mt-5 mb-5">Submitted Homework</h1>
     <div class="container mt-3" style="margin-bottom: 200px !important;">
         
             <?php
@@ -48,30 +48,65 @@
                   <th>Student Name</th>
                   <th>faculty</th>
                   <th>Time</th>
+                  <th>Homework</th>
                 </thead>
                 <tbody>';
 
-                if(mysqli_num_rows($result) > 0){
-                    $count =1;
-                    while($data = mysqli_fetch_assoc($result)){
-                        $id = $data['f_id'];
-                        $sql = "SELECT * FROM `users` WHERE id='$id';";
-                        $result = mysqli_query($conn,$sql);
-                        while($row = mysqli_fetch_assoc($result)){
-                            echo'
-                            <tr>
-                                <td>'.$count.'</td>
-                                <td>'.$data['std_name'].'</td>
-                                <td>'.$row['name'].'</td>
-                                <td>'.$data['time'].'</td>
-                            </tr>
-                            ';
-                            $count = $count +1;
+        
+                if($_SESSION['role'] == 1){
+                    $a_sql = "SELECT * FROM `submit_homework`";
+                    $a_result = mysqli_query($conn,$a_sql);
+                    if(mysqli_num_rows($a_result) > 0){
+                        $count =1;
+                        while($data = mysqli_fetch_assoc($a_result)){
+                            $id = $data['f_id'];
+                            $path = $data['file_path'];
+                            $sql = "SELECT * FROM `users` WHERE id='$id';";
+                            $result = mysqli_query($conn,$sql);
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo'
+                                <tr>
+                                    <td>'.$count.'</td>
+                                    <td>'.$data['std_name'].'</td>
+                                    <td>'.$row['name'].'</td>
+                                    <td>'.$data['time'].'</td>
+                                    <td><a href="partials/uploads/'.$path.'" target="_blank" class="btn btn-primary">Click Here</a></td>
+                                </tr>
+                                ';
+                                $count = $count +1;
+                            }
                         }
+                    }else{
+                        echo "<tr><td><b>Student donot submitted Homework</b></td></tr>";
                     }
-                }else{
-                    echo "<tr><td><b>Student donot submitted Homework</b></td></tr>";
-                }    
+                };
+
+                if($_SESSION['role'] == 2 ){
+                    if(mysqli_num_rows($result) > 0){
+                        $count =1;
+                        while($data = mysqli_fetch_assoc($result)){
+                            $id = $data['f_id'];
+                            $sql = "SELECT * FROM `users` WHERE id='$id';";
+                            $result = mysqli_query($conn,$sql);
+                            $path = $data['file_path'];
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo'
+                                <tr>
+                                    <td>'.$count.'</td>
+                                    <td>'.$data['std_name'].'</td>
+                                    <td>'.$row['name'].'</td>
+                                    <td>'.$data['time'].'</td>
+                                    <td><a href="partials/uploads/'.$path.'" target="_blank" class="btn btn-primary">Click Here</a></td>
+                                    
+                                </tr>
+                                ';
+                                $count = $count +1;
+                            }
+                        }
+                    }else{
+                        echo "<tr><td><b>Student donot submitted Homework</b></td></tr>";
+                    }    
+                }
             ?>
             </tbody>
         </table>
@@ -82,8 +117,6 @@
 
     <?php
         include "partials/footer.php";
-        
-
     ?>
 
     

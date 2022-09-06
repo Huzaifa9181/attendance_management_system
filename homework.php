@@ -19,7 +19,7 @@
 
     <?php
         include_once("partials/navbar.php");
-        session_start();
+        
         if(!isset($_SESSION['loggedin']) && empty($_SESSION['loggedin'])){
             header("Location: index.php"); 
         }
@@ -63,7 +63,7 @@
                                     <input type="file" name="file" class="form-control" id="inputGroupFile02">
                                     <input type="hidden" name="hidden_id" class="form-control" value="'.$data['faculty'].'">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Submit Homework</button>
+                                <button type="submit" class="btn btn-primary mb-5">Submit Homework</button>
                             </form>
                         ';
                     }

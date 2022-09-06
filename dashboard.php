@@ -37,13 +37,11 @@
 <body>
     <?php
         include_once("partials/database.php");
-        session_start();
         include_once("partials/modal.php");
         include_once("partials/homework_modal.php");
         include_once("partials/navbar.php");
 
         $role = $_SESSION['role'];
-
         $sql = "SELECT * FROM `role` WHERE id='$role';";
         $result = mysqli_query($conn,$sql);
         $da = mysqli_fetch_assoc($result);
@@ -57,7 +55,7 @@
             $data = mysqli_fetch_assoc($result);
 
         }else{
-            header("Location: ../index.php");
+            header("Location: index.php");
         }
     ?>
 
@@ -194,6 +192,32 @@
                 <?php
 
             // fetch all data 
+
+            if($_SESSION['role'] == 1 ){
+                $sql = "SELECT * FROM `student`";
+                $result = mysqli_query($conn,$sql);
+                $count = 1;
+                if(mysqli_num_rows($result) > 0){
+                    while($data = mysqli_fetch_assoc($result)){
+                        if($data['time'] ==  date("Y-m-d")){
+                            if($data["attendance"] == "present"){
+                                echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="pres">Present</p></td></tr>';
+                                $count = $count +1;
+                            }
+                            elseif($data["attendance"] == "absent"){
+                                echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><p id="abs">Absent</p></td></tr>';
+                                $count = $count +1;
+
+                            }else{
+                            echo '<tr><td>'.$count.'</td><td>'.$data['name'].'</td><td>'.$data['roll_no'].'</td><td>'.$data['course'].'</td><td>'.$data['semester'].'</td><td>'.$data['branch'].'</td><td><button data-id="'.$data['id'].'" class="btn btn-success present" >P</button><button data-id="'.$data['id'].'" class="btn btn-danger mx-2 absent">A</button></td></tr>';
+                            $count = $count +1;
+                            }
+                        }
+                    }
+                }
+            }
+
+
         $f_id = $_SESSION['f_id'];
         $sql = "SELECT * FROM `student` WHERE f_id = '$f_id';";
         $result = mysqli_query($conn,$sql);

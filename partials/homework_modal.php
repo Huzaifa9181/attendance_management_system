@@ -24,7 +24,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="floatingTextarea" class="mb-2">Homework Description</label>
-                                <textarea class="form-control" id="floatingTextarea"></textarea>
+                                <textarea class="form-control" name="desc" id="floatingTextarea"></textarea>
                             </div>
                             
                             <button type="submit" class="btn btn-primary">Submit</button>

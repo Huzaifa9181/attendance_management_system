@@ -59,7 +59,7 @@
                 <label for="exampleInputEmail1" class="form-label">Password</label>
                 <input type="password" class="form-control" required name="password">
             </div>
-            <select class="form-select mb-3" name="role"  aria-label="Default select example">
+            <select class="form-select mb-3" name="role" required  aria-label="Default select example">
             <option selected>Role</option>
                 <option value="2">Teacher</option>
                 <option value="3">Student</option>
